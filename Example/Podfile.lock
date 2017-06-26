@@ -1,0 +1,16 @@
+PODS:
+  - AnimatedImage (0.1.0)
+
+DEPENDENCIES:
+  - AnimatedImage (from `../`)
+
+EXTERNAL SOURCES:
+  AnimatedImage:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AnimatedImage: 1754956bd96393148d574431ccb426146234830b
+
+PODFILE CHECKSUM: 96b50dead24d6f5164651ab2e18f0838eb709e59
+
+COCOAPODS: 1.2.1

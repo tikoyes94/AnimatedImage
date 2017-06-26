@@ -1,0 +1,6 @@
+framework module AnimatedImage {
+  umbrella header "AnimatedImage-umbrella.h"
+
+  export *
+  module * { export * }
+}

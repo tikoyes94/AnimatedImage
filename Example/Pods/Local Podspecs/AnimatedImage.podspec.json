@@ -1,0 +1,22 @@
+{
+  "name": "AnimatedImage",
+  "version": "0.1.0",
+  "summary": "A short description of AnimatedImage.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tikoyesayan/AnimatedImage",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tikoyesayan": "tigran.yesayan@picsart.com"
+  },
+  "source": {
+    "git": "https://github.com/tikoyesayan/AnimatedImage.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "AnimatedImage/Classes/**/*"
+}
