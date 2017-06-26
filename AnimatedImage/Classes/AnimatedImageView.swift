@@ -43,7 +43,7 @@ public class AnimatedImageView: UIImageView {
             animatedLayer.animatedImage = newValue
             animatedLayer.removeAnimation(forKey: kContentChangeAnimation)
             if let image = newValue {
-                animatedLayer.add(contentChangeAnimation(frameCount: image.frameCount(), duration: image.duration()), forKey: kContentChangeAnimation)
+                animatedLayer.add(contentChangeAnimation(frameCount: image.frameCount, duration: image.duration), forKey: kContentChangeAnimation)
             }
         }
         

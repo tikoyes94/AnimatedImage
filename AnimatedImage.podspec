@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = 'AnimatedImage'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'UIImageView subclass optimized for handling animated images.'
   s.description      = <<-DESC
-AnimatedImageView is a UIImageView subclass optimized for displaying GIF images with low memory cost and CPU usage.
+AnimatedImageView is a UIImageView subclass optimized for displaying animated images like APNG and GIF with low memory cost and CPU usage.
                        DESC
 
   s.homepage         = 'https://github.com/tikoyesayan/AnimatedImage'

@@ -13,6 +13,50 @@ import MobileCoreServices
 public class AnimatedImage: NSObject {
     var imageSource: CGImageSource?
     
+    private(set) lazy var duration: CFTimeInterval = {
+        var fullDuration: CFTimeInterval = 0
+        if let source = self.imageSource {
+            let type = CGImageSourceGetType(source)
+            
+            var kAnimatedProperty: String!
+            var kUnclampedDelayTime: String!
+            var kDelayTime: String!
+            
+            switch type {
+            case .some(kUTTypeGIF):
+                kAnimatedProperty = kCGImagePropertyGIFDictionary as String
+                kUnclampedDelayTime = kCGImagePropertyGIFUnclampedDelayTime as String
+                kDelayTime = kCGImagePropertyGIFDelayTime as String
+            case .some(kUTTypePNG):
+                kAnimatedProperty = kCGImagePropertyPNGDictionary as String
+                kUnclampedDelayTime = kCGImagePropertyAPNGUnclampedDelayTime as String
+                kDelayTime = kCGImagePropertyAPNGDelayTime as String
+            default:
+                return 0
+            }
+            
+            for i in 0 ..< self.frameCount {
+                if let properties = CGImageSourceCopyPropertiesAtIndex(source, i, self.imageSourceOptions()) as? [String: Any] {
+                    if let gifProperties = properties[kAnimatedProperty] as? [String: Any] {
+                        if let duration = gifProperties[kUnclampedDelayTime] as? CFTimeInterval {
+                            fullDuration += duration
+                        } else if let duration = gifProperties[kDelayTime] as? CFTimeInterval {
+                            fullDuration += duration
+                        }
+                    }
+                }
+            }
+        }
+        return fullDuration
+    }()
+    
+    private(set) lazy var frameCount: Int = {
+        if let image = self.imageSource {
+            return CGImageSourceGetCount(image)
+        }
+        return 0
+    }()
+    
     public init(url: URL) {
         super.init()
         self.imageSource = CGImageSourceCreateWithURL(url as CFURL, self.imageSourceOptions())
@@ -24,8 +68,7 @@ public class AnimatedImage: NSObject {
     }
     
     private func imageSourceOptions() -> CFDictionary {
-        return [kCGImageSourceTypeIdentifierHint as String : kUTTypeGIF,
-                kCGImageSourceShouldCache as String : true] as CFDictionary
+        return [kCGImageSourceShouldCache as String : true] as CFDictionary
     }
     
     func imageFor(index: Int) -> CGImage? {
@@ -33,30 +76,5 @@ public class AnimatedImage: NSObject {
             return CGImageSourceCreateImageAtIndex(source, index, self.imageSourceOptions())
         }
         return nil
-    }
-    
-    func frameCount() -> Int {
-        if let image = self.imageSource {
-            return CGImageSourceGetCount(image)
-        }
-        return 0
-    }
-    
-    func duration() -> CFTimeInterval {
-        var fullDuration:CFTimeInterval = 0
-        if let source = self.imageSource {
-            for i in 0..<frameCount() {
-                if let properties = CGImageSourceCopyPropertiesAtIndex(source, i, self.imageSourceOptions()) {
-                    if let gifProperties = (properties as Dictionary)[kCGImagePropertyGIFDictionary] {
-                        if let duration = gifProperties[kCGImagePropertyGIFUnclampedDelayTime] as? CFTimeInterval {
-                            fullDuration += duration
-                        } else if let duration = gifProperties[kCGImagePropertyGIFDelayTime] as? CFTimeInterval {
-                            fullDuration += duration
-                        }
-                    }
-                }
-            }
-        }
-        return fullDuration
     }
 }
