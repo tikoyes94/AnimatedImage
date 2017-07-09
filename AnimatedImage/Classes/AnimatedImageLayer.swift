@@ -11,7 +11,7 @@ import ImageIO
 
 class AnimatedImageLayer: CALayer {
     var animatedImage: AnimatedImage?
-    var index: Int = 0
+    dynamic var index: Int = 0
     override init(layer: Any) {
         super.init(layer: layer)
         if layer is AnimatedImageLayer {
